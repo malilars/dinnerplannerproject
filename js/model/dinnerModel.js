@@ -1,12 +1,20 @@
 //DinnerModel Object constructor
 var DinnerModel = function() {
 
-    var numberOfGuests = 2;
+    var numberOfGuests = 1;
 
 	//The selected dishes aka. "full menu"
 	var selectedDishes = [];
 	
 	var observers = [];
+
+
+
+
+	// ADDED
+    // returns price per person of one dish
+    // Added this so we can get price on specific dishes /C
+
 
 
 	this.setNumberOfGuests = function(num) {
@@ -24,9 +32,8 @@ var DinnerModel = function() {
 	}
 
 	var notifyObservers = function() {
-		self = this;
 		observers.forEach(function(observer) {
-			observer.update(self);
+			observer.update();
 		});
 	}
 	// returns price per person of one dish
@@ -42,18 +49,19 @@ var DinnerModel = function() {
 	//Returns the dish that is on the menu for selected type 
 	this.getSelectedDish = function(type) {
 
+		var dishToReturn = null;
         //Loop over all dishes in the menu. Don't use filter() since
         //it returns an array of arrays and that is cumbersome...
         this.getFullMenu().forEach(function(dish) {
             //If we find one (will never be >1), return it!
-            if (dish.type == type)
+            if (dish.type === type)
             {
-                return dish;
+                dishToReturn = dish;
             }
         });
 
         //If we get here, we have not found any dish...
-        return null;
+        return dishToReturn;
 	}
 
 	//Returns all the dishes on the menu.
@@ -94,7 +102,7 @@ var DinnerModel = function() {
             //so we take one by one
             dish.ingredients.forEach(function(ingredient) {
                 //price * quantity is the total price (per person)
-                pricePerPerson += ingredient.price * ingredient.quantity;
+                pricePerPerson += ingredient.price;
             });
 
         });
@@ -106,13 +114,19 @@ var DinnerModel = function() {
 	//Adds the passed dish to the menu. If the dish of that type already exists on the menu
 	//it is removed from the menu and the new one added.
 	this.addDishToMenu = function(id) {
-        dishToAdd = this.getDish(id);
 
+        var dishToAdd = this.getDish(parseInt(id));
+
+
+        console.log(dishToAdd);
         //is the dish-type already in selectedDishes?
         var alreadyExistingDish = this.getSelectedDish(dishToAdd.type);
+
+        console.log(alreadyExistingDish);
         if (alreadyExistingDish != null)
         {
-            //if it exists, we must remove it before we keep on going
+            console.log("den finns redan");
+        	//if it exists, we must remove it before we keep on going
             this.removeDishFromMenu(alreadyExistingDish.id);
         }
 

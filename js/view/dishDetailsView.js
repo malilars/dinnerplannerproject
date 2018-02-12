@@ -1,9 +1,10 @@
 var DishDetailsView = function (container, model) {
     
     this.currentDishId = null;
-
+    model.addObserver(this);
+    
     this.updateDishDetails = function(dishId) {
-        console.log("UPDATING");
+       // console.log("UPDATING");
         //store the "current" dish id so that we can update the view
         this.currentDishId = dishId;
         //get the dish from model
@@ -110,25 +111,12 @@ var DishDetailsView = function (container, model) {
         container.html(mainDiv);
     }
 
-    var selectBox = container.find("#numberOfGuests");
-
-    selectBox.val(model.getNumberOfGuests());
-
-    //when we change the select box
-    selectBox.change(function() {
-        //we must update the model
-        model.setNumberOfGuests(
-            selectBox.val()
-        );
-    });
-
-
-    this.getAddDishToMenuButton = function(){
-        return container.find("#addToMenuButton");
-    }
-
     this.update = function(model)
     {
         this.updateDishDetails(this.currentDishId);
+    };
+
+    this.getContainer = function(){
+        return container;
     };
 }

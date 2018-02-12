@@ -1,48 +1,58 @@
 var DinnerMenuView = function (container, model) {
 
-    this.updateTable = function()
+    "use strict";
+
+    model.addObserver(this);
+    function updateTable()
     {
-        //1 find the table = (container.find("#id-if-table"))
+ 
+        // find the table
         var tbody = container.find("#fullMenuTable tbody");
-        var totalMenuPrice = 0
-        //2. loop over model.getFullMenu() and for each:
-        model.getFullMenu().forEach(function(row) {
+
+        // empty the old data
+        tbody.empty();
+
+        var totalMenuPrice = model.getTotalMenuPrice();
+
+        var numberOfGuest = model.getNumberOfGuests();
+
+        // loop over model.getFullMenu() and for each dish add it to the table
+        model.getFullMenu().forEach(function(dish) {
 
             //3. add a row to the table
             tbody.append(
                 $("<tr/>")
                     .append(
-                        $('<td/>').text(row.name)
+                        $('<td/>').text(dish.name)
                     ).append(
-                        $('<td/>').text(model.getNumberOfGuests())
+                        $('<td/>').text(numberOfGuest * model.getTotalDishPrice(dish))
                     )
             );
         });
 
 
+        // update the footer
+        var totalPriceContainer = container.find("#currentTotalPrice");
+        totalPriceContainer.empty();
+        totalPriceContainer.text("SEK " + totalMenuPrice);
+
+
+        
         //4. Update the total (förslagsvis genom att ha en <span id="totalSomething"> och uppdatera text() på den)
 
     };
 
-    this.updateTable();
+
 
     // evoked when notifyObservers in model is called
     this.update = function()
     {
-        updateTable();
+       updateTable();
     };
 
-    var selectBox = container.find("#numberOfGuests");
 
-    selectBox.val(model.getNumberOfGuests());
+    this.getSelectBox = function(){
+        return container.find("#numberOfGuests");
+    }
 
-
-    //when we change the select box
-    selectBox.change(function() {
-        //we must update the model
-        model.setNumberOfGuests(
-            selectBox.val()
-        );
-    });
 };
- 

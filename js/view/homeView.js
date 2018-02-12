@@ -1,11 +1,12 @@
 var HomeView = function (container, model) {
 
-    //Assing the elements
-	var createDinnerButton = container.find("#createNewDinnerButton");
-
     this.getCreateDinnerButton = function()
     {
-        return createDinnerButton;
+        return container.find("#createNewDinnerButton");
+    }
+
+    this.getContainer = function(){
+        return container;
     }
 };
  

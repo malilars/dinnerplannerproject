@@ -12,25 +12,42 @@ $(function() {
 
     //start with showing the home view
     homeElement.show();
+    //dinnerOverviewElement.show();
+
 
     //Create the controllers
-    var homeController = new HomeController(homeView, model);
+    var homeController = new HomeController(homeView, model, this);
     var selectDishController = new SelectDishController(selectDishView, model);
-    var dishDetailController = new DishDetailController(dishDetailsView, model);
-
+    var menuViewController = new MenuViewController(dinnerMenuView, model);
+    
+    
+    var dishDetailController = new DishDetailController(dishDetailsView, model, this);
+    var dinnerOverviewController = new DinnerOverviewController(dinnerOverviewView, model, this);
+    var dinnerPrintoutController = new DinnerPrintoutController(dinnerPrintoutView, model, this);
+    
     selectDishView.bindClickOnThumbnail(function() {
         //fetch the id of the dish
         //change view to dish details with the given id
-        $('#select-dish').hide();   
-        $('#dish-details').show();
+        selectDishElement.hide();   
+        dishDetailsElement.show();
         dishDetailsView.updateDishDetails($(this).attr('data-dish-id'));
         
     })
 
-    model.addObserver(dishDetailsView);
-    model.addObserver(dinnerMenuView);
+    this.goToSelectDish = function(viewElement){
 
-    var a  ="hej";
+        viewElement.hide();
+        selectDishElement.show();
+        dinnerMenuElement.show();
+
+    }
+
+    this.goToFullRecipe = function(){
+        dinnerOverviewElement.hide();
+        dinnerPrintoutElement.show();
+    }
+
+
 
 
 	/**

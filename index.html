@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -74,7 +74,7 @@
                         <tfoot>
                             <tr>
                                 <th>Total</th>
-                                <th>$0</th>
+                                <th id="currentTotalPrice">SEK 0</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -179,20 +179,20 @@
         <!-- end planning -->
 
 
-        <div id="dinner-overview" style="display:none;">
+        <div style="display:none;" id="dinner-overview">
             <div class="row">
                 <div class="col-md-6">
                     <h1>My Dinner: 3 people</h1>
                 </div>
                 <div class="col-md-6 text-right">
-                    <button class="btn btn-info">Go back and edit dinner</button>
+                    <button id= "go-back-edit-dinner-button" class="btn btn-info">Go back and edit dinner</button>
                 </div>
             </div>
 
             <hr/>
-
-            <div class="row">
-                <div class="col-md-8">
+            
+            <div class="row" id="dishes-overview"></div>
+                <!--<div class="col-md-8">
                     <div class="row">
                         <div class="col-md-3">
                             <img src="https://www.recepten.se/bilder/recept/97/main/m/lasagne.jpg" class="img img-responsive"/>
@@ -217,18 +217,19 @@
                     <p>341.20 SEK</p>
                 </div>
             </div>
-
+             <-->   
             <hr/>
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <button class="btn btn-primary">
+                    <button id= "full-recipe-button" class="btn btn-primary">
                         Print Full Recipe
                     </button>
                 </div>
             </div>
 
         </div>
+
         <!-- end dinner overview -->
 
         <!-- dinner-printout -->
@@ -238,7 +239,7 @@
                     <h1>My Dinner: 3 people</h1>
                 </div>
                 <div class="col-md-6 text-right">
-                    <button class="btn btn-info">Go back and edit dinner</button>
+                    <button id= "go-back-and-edit-dinner-button" class="btn btn-info">Go back and edit dinner</button>
                 </div>
             </div>
 
@@ -285,17 +286,29 @@
 	<!-- The application JavaScript code -->
 	<script src="js/app.js"></script>
     <script src="js/model/dinnerModel.js"></script>
+
+    <script src="js/view/exampleView.js"></script>
+    
+    <script src="js/view/homeView.js"></script>
     <script src="js/controller/homeController.js"></script>
-	<script src="js/view/exampleView.js"></script>
-	<script src="js/view/homeView.js"></script>
+
     <script src="js/view/selectDishView.js"></script>
     <script src="js/controller/SelectDishController.js"></script>
-	<script src="js/view/dishDetailsView.js"></script>
-    <script src="js/view/dishDetailController.js"></script>
 
-	<script src="js/view/dinnerMenuView.js"></script>
+    <script src="js/view/dishDetailsView.js"></script>
+    <script src="js/controller/dishDetailController.js"></script>
+
+
+    <script src="js/view/dinnerMenuView.js"></script>
+    <script src="js/controller/menuViewController.js"></script>
+    
+    
     <script src="js/view/dinnerOverviewView.js"></script>
+    <script src="js/controller/dinnerOverviewController.js"></script>
+
     <script src="js/view/dinnerPrintoutView.js"></script>
+    <script src="js/controller/dinnerPrintoutController.js"></script>
+
 	<!-- TODO: Here you should include JS code for your other views -->
   </body>
 </html>

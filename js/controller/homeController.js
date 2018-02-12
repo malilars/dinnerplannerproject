@@ -1,11 +1,7 @@
-var HomeController = function(homeView, model) {
+var HomeController = function(homeView, model, app) {
 
     homeView.getCreateDinnerButton().click(function(){
-
-        $('#home').hide();
-        $('#dinner-menu').show();
-        $('#select-dish').show();
-
+        app.goToSelectDish(homeView.getContainer());
     });
 
 };
