@@ -54,6 +54,7 @@ $(function() {
         selectDishContainer.show();
     });
 
+var a = "hej";
 
     // Move from selectDishView to dishDetailsView
     $('body').on('click','.thumbnail',function(){
