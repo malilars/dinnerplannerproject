@@ -1,38 +1,77 @@
-
-
+/** ExampleView Object constructor
+ * 
+ * This object represents the code for one specific view (in this case the Example view). 
+ * 
+ * It is responsible for:
+ * - constructing the view (e.g. if you need to create some HTML elements procedurally) 
+ * - populating the view with the data
+ * - updating the view when the data changes
+ * 
+ * You should create a view Object like this for every view in your UI.
+ * 
+ * @param {jQuery object} container - references the HTML parent element that contains the view.
+ * @param {Object} model - the reference to the Dinner Model
+ */ 
 var SelectDishView = function (container, model) {
 
-    "use strict";
-    initView(container);
+    searchResults = container.find("#searchResults");
 
-    function initView(container){
+    //Initialise the view
+    dishes = model.getAllDishes("starter");
+    this.updateListOfDishes = function(dishes)
+    {
+        searchResults.empty();
+        dishes.forEach(function(dish) {
+            //Create the column
+            var contents = $("<div></div>")
+                .addClass('col-md-3')
+                .append(
+                    //create the thumbnail (small image that represents a larger image)
+                    $("<div></div>")
+                        .addClass('thumbnail')
+                        .attr('data-dish-id', dish.id)
+                        .append(
+                            //Create the image
+                            $("<img/>")
+                                .addClass('img')
+                                .addClass('img-responsive')
+                                .attr('src', 'images/' + dish.image)
+                        )
+                        .append(
+                            //Create the caption
+                            $("<div></div>")
+                                .addClass('caption')
+                                .append(
+                                    $("<p></p>").text(dish.name)
+                                )
+                        )
+                );
+    
+            searchResults.append(contents);
+        });
+    };
 
-        var mainDiv = $("<div/>").attr("class", "row");
+    this.updateListOfDishes(dishes);
 
-        var columnDiv = $("<div/>").attr("class", "col-md-12").append($("<h3/>").text("FIND A DISH:"));
+    this.getSearchDinnerButton = function()
+    {
+        return container.find("#search-dinner-button");
+    };
 
-        var forminline = $("<div/>").attr("class", "form-inline");
+    //We can not return element and run .click() from controller
+    //since the elements we create dynamically will not be selected...
+    //instead we bind event callbacks from here, so that controller
+    //can add whatever he wants for the click event.
+    this.bindClickOnThumbnail = function(callback)
+    {
+        return container.on("click", ".thumbnail", callback);
+    };
+    
 
-        var formInput = $("<div/>").attr("class", "form-group").append(
-            $("<input/>").attr("id", "searchInput")
-            .attr("type", "text")
-            .attr("class", "form-control")
-            .attr("placeholder", "Enter Keywords"));
+    //To be run when the model changes
+    this.update = function(model)
+    {
 
-        var formOptions = $("<div/>").attr("class", "form-group").append(
-            $("<select/>").attr("id", "optionsInput").attr("class", "form-control").append('<option value="starter">Förrätt</option><option value="main dish">Huvudrätt</option><option value="dessert">Efterrätt</option>'));
-
-        var formButton = $("<div/>").attr("class", "form-group").append(
-            $("<button/>").attr("class", "btn btn-primary").text("Search").attr("id", "submitButton"));
-
-        container.append(
-            mainDiv.append(
-                columnDiv.append(
-                    forminline.append(formInput).append(formOptions).append(formButton))));
-
-        container.append(
-            $("<div/>").attr("class", "row").attr("id", "searchResults"));
-    }
-
+    };
 
 };

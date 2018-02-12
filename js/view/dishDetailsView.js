@@ -1,123 +1,129 @@
-var DishDetailsView = function(container, model) {
-    "use strict";
-    model.addObserver(this);
+var DishDetailsView = function (container, model) {
+    
+    this.currentDishId = null;
 
-    // This function create all html-components for dishDetails
-    this.initDish = function(container, model, dishId) {
-
-        // empty the old container
-        container.empty();
-
-        var dish = model.getDish(dishId);
-
+    this.updateDishDetails = function(dishId) {
+        console.log("UPDATING");
+        //store the "current" dish id so that we can update the view
+        this.currentDishId = dishId;
+        //get the dish from model
+        var dish = model.getDish(this.currentDishId);
+        //get the number of guests
         var numberOfGuests = model.getNumberOfGuests();
-        var totDishCost = 0;
-
-        var colDivOne = $("<div/>")
-            .attr("class", "col-md-6")
-                .append(
-                    $("<h2/>")
-                        .text(dish.name))
-                        .append(
-                            $("<img/>")
-                                .attr("src", "images/" + dish.image)
-                                .attr("class", "img img-responsive"))
-                                .append(
-                                    $("<p/>")
-                                        .text(dish.description))
-                                        .append(
-                                            $("<button/>")
-                                                .attr("id", "backToSearchViewButton")
-                                                .attr("class", "btn btn-info")
-                                                .text("Back to search")
-                                            ).append(
-                                                $("<h2/>").text("PREPARATION")
-                                            ).append(
-                                                $("<p/>").text(dish.description)
-                                            );
-
-
-        var ingridTable = $("<table/>").attr("class", "table").append("<tbody>");
-
-        dish.ingredients.forEach(function(ingridient){
-
-            var totQuant = ingridient.quantity * numberOfGuests;
-            var totCost = ingridient.price * numberOfGuests;
-
-            totDishCost += totCost;
-
-            var tr = $("<tr/>")
+        //initialize the total dish cost
+        var totalDishCost = 0;
+    
+        //update all html
+        var colDivOne = $("<div></div>")
+            .addClass('col-md-6')
             .append(
-                $("<td/>")
-                    .text(totQuant + " "+ ingridient.unit))
-                    .append(
-                        $("<td/>")
-                            .text(ingridient.name))
-                            .append(
-                                $("<td/>")
-                                    .text("SEK"))
-                                    .append(
-                                        $("<td/>")
-                                            .text(totCost));
-
-            ingridTable.append(tr);
+                //update head
+                $("<h2/>")
+                .text(dish.name))
+            .append(
+                $("<img/>")
+                //update picture
+                .attr("src", "images/" + dish.image)
+                .attr("class", "img img-responsive"))
+            .append(
+                $("<p/>")
+                //update dercription
+                .text(dish.description))
+            .append(
+                $("<button/>")
+                .attr("id", "backToSearchViewButton")
+                .attr("class", "btn btn-info")
+                .text("Back to search")
+            ).append(
+                $("<h2/>").text("PREPARATION")
+            ).append(
+                //update preparation description
+                $("<p/>").text(dish.description)
+            );
+        //uppdate ingredients                                   
+        var ingredientTable = $("<table/>").attr("class", "table").append("<tbody>");
+        dish.ingredients.forEach(function(ingredient) {
+    
+            var totQuant = ingredient.quantity * numberOfGuests;
+            var totCost = ingredient.price * numberOfGuests;
+    
+            totalDishCost += totCost;
+    
+            var tr = $("<tr/>")
+                .append(
+                    $("<td/>")
+                    .text(totQuant + " " + ingredient.unit))
+                .append(
+                    $("<td/>")
+                    .text(ingredient.name))
+                .append(
+                    $("<td/>")
+                    .text("SEK"))
+                .append(
+                    $("<td/>")
+                    .text(totCost));
+    
+            ingredientTable.append(tr);
         });
-
-        ingridTable.append("</thead>")
+        ingredientTable.append("</thead>")
             .append(
                 $("<tfoot/>")
-                    .append($("<tr/>")
+                .append($("<tr/>")
                     .append(
                         $("<th/>")
-                            .attr("colspan", "2")
-                            .append(
-                                $("<button/>")
-                                    .attr("chosenDish",dishId)
-                                    .attr("id", "addToMenuButton")
-                                    .attr("class", "btn btn-primary")
-                                    .text("Add to menu")))
-                                    .append(
-                                        $("<th/>")
-                                            .text("SEK"))
-                                            .append(
-                                                $("<th/>")
-                                                    .text(totDishCost))));
-
-
+                        .attr("colspan", "2")
+                        .append(
+                            $("<button/>")
+                            .attr("chosenDish", dishId)
+                            .attr("id", "addToMenuButton")
+                            .attr("class", "btn btn-primary")
+                            .text("Add to menu")))
+                    .append(
+                        $("<th/>")
+                        .text("SEK"))
+                    .append(
+                        $("<th/>")
+                        .text(totalDishCost))));
+    
+    
         var colDivTwo = $("<div/>")
             .attr("class", "col-md-6")
             .append(
                 $("<div/>")
-                    .attr("class", "panel panel-default")
-                    .append(
-                        $("<div/>")
-                            .attr("class", "panel-heading")
-                            .text("Ingridients for " + numberOfGuests + " people"))
-                            .append(
-                                $("<div/>")
-                                    .attr("class", "panel-body")
-                                    .append(ingridTable)
-            )
-        );
-
+                .attr("class", "panel panel-default")
+                .append(
+                    $("<div/>")
+                    .attr("class", "panel-heading")
+                    .text("Ingredients for " + numberOfGuests + " people"))
+                .append(
+                    $("<div/>")
+                    .attr("class", "panel-body")
+                    .append(ingredientTable)
+                )
+            );
+    
         var mainDiv = $("<div/>")
             .attr("class", "row")
             .append(colDivOne)
             .append(colDivTwo);
-
-        container.append(mainDiv);
+    
+        container.html(mainDiv);
     }
 
-    // evoked when notifyObservers in model is called
-    this.update = function (){
-        alert("update dishDetailsView");
-    }
+    var selectBox = container.find("#numberOfGuests");
 
-    //This is not working, since it is called BEFORE the element is created.
-    //We should just create the elements in HTML...
-    this.getAddToMenuButton = function(){
-        var addToMenuButton = container.find('#addToMenuButton');
-        return addToMenuButton;
-    }
-};
- 
+    selectBox.val(model.getNumberOfGuests());
+
+    //when we change the select box
+    selectBox.change(function() {
+        //we must update the model
+        model.setNumberOfGuests(
+            selectBox.val()
+        );
+    });
+
+    this.update = function(model)
+    {
+        this.updateDishDetails(this.currentDishId);
+    };
+}

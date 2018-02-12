@@ -1,37 +1,37 @@
 //DinnerModel Object constructor
-
 var DinnerModel = function() {
 
+    var numberOfGuests = 2;
+
+	//The selected dishes aka. "full menu"
+	var selectedDishes = [];
+	
 	var observers = [];
 
-    var numberOfGuests = 1;
-
-    //The selected dishes aka. "full menu"
-    var selectedDishes = [];
-
-    this.addObserver = function(observer) {
-		observers.push(observer);
-	}
-
-	var notifyObservers = function() {
-		observers.forEach(function(observer) {
-			observer.update(this);
-		});
-	}
 
 	this.setNumberOfGuests = function(num) {
 		numberOfGuests = num;
+
 		notifyObservers();
 	}
-
-
+	
 	this.getNumberOfGuests = function() {
 		return numberOfGuests;
 	}
 
+	this.addObserver = function(observer) {
+		observers.push(observer);
+	}
+
+	var notifyObservers = function() {
+		self = this;
+		observers.forEach(function(observer) {
+			observer.update(self);
+		});
+	}
 	// returns price per person of one dish
 	// Added this so we can get price on specific dishes /C
-	this.getTotalDishPrice= function(dish){
+	this.getTotalDishPrice = function(dish){
 		var totDishPrice = 0;
 		dish.ingredients.forEach(function(ingredient){
 			totDishPrice += ingredient.price;
@@ -106,7 +106,7 @@ var DinnerModel = function() {
 	//Adds the passed dish to the menu. If the dish of that type already exists on the menu
 	//it is removed from the menu and the new one added.
 	this.addDishToMenu = function(id) {
-        var dishToAdd = this.getDish(id);
+        dishToAdd = this.getDish(id);
 
         //is the dish-type already in selectedDishes?
         var alreadyExistingDish = this.getSelectedDish(dishToAdd.type);
@@ -117,8 +117,9 @@ var DinnerModel = function() {
         }
 
         //Add the given dish to the menu/list of selected dishes
-        selectedDishes.push(dishToAdd);
-        notifyObservers();
+		selectedDishes.push(dishToAdd);
+		
+		notifyObservers();
 	}
 
 	//Removes dish from menu
@@ -128,7 +129,6 @@ var DinnerModel = function() {
             //it in the list but if it is different, we return false to
             return dish.id != id;
         });
-        notifyObservers();
 	}
 
 	//function that returns all dishes of specific type (i.e. "starter", "main dish" or "dessert")
