@@ -122,6 +122,11 @@ var DishDetailsView = function (container, model) {
         );
     });
 
+
+    this.getAddDishToMenuButton = function(){
+        return container.find("#addToMenuButton");
+    }
+
     this.update = function(model)
     {
         this.updateDishDetails(this.currentDishId);

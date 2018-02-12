@@ -16,6 +16,7 @@ $(function() {
     //Create the controllers
     var homeController = new HomeController(homeView, model);
     var selectDishController = new SelectDishController(selectDishView, model);
+    var dishDetailController = new DishDetailController(dishDetailsView, model);
 
     selectDishView.bindClickOnThumbnail(function() {
         //fetch the id of the dish
