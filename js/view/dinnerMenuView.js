@@ -5,7 +5,6 @@ var DinnerMenuView = function (container, model) {
     model.addObserver(this);
     function updateTable()
     {
- 
         // find the table
         var tbody = container.find("#fullMenuTable tbody");
 
@@ -13,13 +12,12 @@ var DinnerMenuView = function (container, model) {
         tbody.empty();
 
         var totalMenuPrice = model.getTotalMenuPrice();
-
         var numberOfGuest = model.getNumberOfGuests();
 
         // loop over model.getFullMenu() and for each dish add it to the table
         model.getFullMenu().forEach(function(dish) {
 
-            //3. add a row to the table
+            //add a row to the table
             tbody.append(
                 $("<tr/>")
                     .append(
@@ -29,17 +27,10 @@ var DinnerMenuView = function (container, model) {
                     )
             );
         });
-
-
         // update the footer
         var totalPriceContainer = container.find("#currentTotalPrice");
         totalPriceContainer.empty();
         totalPriceContainer.text("SEK " + totalMenuPrice);
-
-
-        
-        //4. Update the total (förslagsvis genom att ha en <span id="totalSomething"> och uppdatera text() på den)
-
     };
 
     this.getContainer = function(){
@@ -51,14 +42,13 @@ var DinnerMenuView = function (container, model) {
     {
        updateTable();
        
+       //Update the "confirm dinner" button 
        if(model.getFullMenu().lenght != 0){
             container.find("#confirm-dinner-button").prop('disabled', false);
        };
-       
     };
 
     this.getConfirmDinnerButton = function(){
-
         return container.find("#confirm-dinner-button");
     }
 

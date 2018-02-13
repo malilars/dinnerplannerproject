@@ -4,7 +4,7 @@ var DishDetailsView = function (container, model) {
     model.addObserver(this);
     
     this.updateDishDetails = function(dishId) {
-       // console.log("UPDATING");
+    
         //store the "current" dish id so that we can update the view
         this.currentDishId = dishId;
         //get the dish from model

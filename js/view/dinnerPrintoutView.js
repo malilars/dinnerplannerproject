@@ -27,7 +27,9 @@ var DinnerPrintoutView = function (container, model) {
                     .attr("class", "btn btn-info")
                     .text("Go Back And Edit Dinner")
             ));
-
+        
+            // en till div
+        var allDishDiv = $("<div/>").attr("class", "row");
         model.getFullMenu().forEach(function(dish){
 
             var dishDiv = $("<div/>").attr("class", "row");
@@ -67,10 +69,10 @@ var DinnerPrintoutView = function (container, model) {
                                     .text(dish.description));
 
 
-            dishDiv.append(imgDiv).append(descDiv).append(prepDiv);
-            container.append(dinnerPrintout).append($("<hr/>")).append(dishDiv);
+            allDishDiv.append(dishDiv.append(imgDiv).append(descDiv).append(prepDiv)).append("<br>");
+            
         });
-
+        container.append(dinnerPrintout).append($("<hr/>")).append(allDishDiv);
     }
 
     // evoked when notifyObservers in model is called
@@ -78,7 +80,6 @@ var DinnerPrintoutView = function (container, model) {
     {
         updatePrintoutView(container, model);
     }
-
 
     this.getContainer = function()
     {

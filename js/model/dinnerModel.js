@@ -1,25 +1,29 @@
 //DinnerModel Object constructor
 var DinnerModel = function() {
 
-    var numberOfGuests = 1;
+
+	// default number of guests is 2	
+    var numberOfGuests = 2;
 
 	//The selected dishes aka. "full menu"
 	var selectedDishes = [];
 	
+	// list with observers (views)
 	var observers = [];
 
+	var notifyObservers = function() {
 
+		observers.forEach(function(observer) {
+			observer.update();
+		});
+	}
 
-
-	// ADDED
-    // returns price per person of one dish
-    // Added this so we can get price on specific dishes /C
-
-
+	this.addObserver = function(observer) {
+		observers.push(observer);
+	}
 
 	this.setNumberOfGuests = function(num) {
 		numberOfGuests = num;
-
 		notifyObservers();
 	}
 	
@@ -27,15 +31,6 @@ var DinnerModel = function() {
 		return numberOfGuests;
 	}
 
-	this.addObserver = function(observer) {
-		observers.push(observer);
-	}
-
-	var notifyObservers = function() {
-		observers.forEach(function(observer) {
-			observer.update();
-		});
-	}
 	// returns price per person of one dish
 	// Added this so we can get price on specific dishes /C
 	this.getTotalDishPrice = function(dish){
@@ -142,7 +137,10 @@ var DinnerModel = function() {
             //if the id is different than the id we want to remove, keep
             //it in the list but if it is different, we return false to
             return dish.id != id;
-        });
+		});
+
+		
+		
 	}
 
 	//function that returns all dishes of specific type (i.e. "starter", "main dish" or "dessert")

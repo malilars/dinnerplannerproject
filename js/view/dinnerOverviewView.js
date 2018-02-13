@@ -1,39 +1,14 @@
 var DinnerOverviewView = function(container, model) {
-    // TODO, fix update
 
     "use strict";
 
     model.addObserver(this);
-    updateDinnerOverview();
     
-
     function updateDinnerOverview() {
-
         var dishesOverview = container.find("#dishes-overview")
         dishesOverview.empty();
         var numberOfGuest = model.getNumberOfGuests();
         
-        console.log(numberOfGuest);
-        /*
-        var headerDiv = $("<div/>")
-            .attr("class", "row")
-            .append(
-                $("<div/>")
-                .attr("class", "col-md-6")
-                .append(
-                    $("<h1/>")
-                    .text("My dinner: " + numberOfGuest + " people")))
-                    
-            .append(
-                $("<div/>")
-                .attr("class", "col-md-6 text-right")
-                .append(
-                    $("<button/>")
-                    .attr("class", "btn btn-info")
-                    .attr("id", "goBackEditDinnerButton")
-                    .text("Go back and edit dinner")))
-            .append("<hr/>");
-                    **/
         var selectedDishes = model.getFullMenu();
 
         var selectedDishesDivCol = $("<div/>").attr("class", "col-md-8");
@@ -41,13 +16,6 @@ var DinnerOverviewView = function(container, model) {
         var selectedDishesDivRow = $("<div/>").attr("class", "row");
 
         selectedDishes.forEach(function(dish) {
-
-
-            /*      <figure class="figure">
-                          <img src="..." class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
-                          <figcaption class="figure-caption">A caption for the above image.</figcaption>
-                      </figure>
-                      */
 
             var totDishPrice = model.getTotalDishPrice(dish) * model.getNumberOfGuests();
 
@@ -85,19 +53,7 @@ var DinnerOverviewView = function(container, model) {
                 $("<p/>")
                 .text(model.getTotalMenuPrice() + " SEK")));
 
-        selectedDishesDivCol.append(selectedDishesDivRow);
-        /*        
-        var lowerDiv = $("<div/>")
-            .attr("class", "row")
-            .append(
-                $("<div/>")
-                .attr("class", "col-md-12 text-center")
-                .append(
-                    $("<button/>")
-                    .attr("class", "btn btn-primary")
-                    .attr("id", "printFullRecipeButton")
-                    .text("Print Full Recipe")));
-                    */
+        selectedDishesDivCol.append(selectedDishesDivRow);      
         dishesOverview.append(selectedDishesDivCol);
 
     }
@@ -105,7 +61,6 @@ var DinnerOverviewView = function(container, model) {
     // evoked when notifyObservers in model is called
     this.update = function() {
         updateDinnerOverview();
-        alert("update dinnerOverviewView");
     }
 
     this.getContainer = function(){
