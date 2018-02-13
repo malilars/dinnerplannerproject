@@ -1,7 +1,10 @@
-var DinnerPrintoutController = function(dinnerPrintoutView, model, app) {
+var DinnerPrintoutController = function (dinnerPrintoutView, model,app){
 
-    dinnerPrintoutView.getGoBackAndEditDinnerButton().click(function(){
+    
+    dinnerPrintoutView.getContainer().on('click', '#go-back-and-edit-dinner-button', function() {
+        
         app.goToSelectDish(dinnerPrintoutView.getContainer());
-
+    
     });
+
 };

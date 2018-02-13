@@ -6,7 +6,7 @@ var DinnerPrintoutView = function (container, model) {
 
     function updatePrintoutView(container,model){
         
-        container.empty();
+       container.empty();
 
         var dinnerPrintout = $("<div/>")
             .attr("class", "row")
@@ -74,16 +74,17 @@ var DinnerPrintoutView = function (container, model) {
     }
 
     // evoked when notifyObservers in model is called
-    this.update = function (){
+    this.update = function ()
+    {
         updatePrintoutView(container, model);
     }
-    this.getGoBackAndEditDinnerButton = function()
-    {
-        return container.find("#go-back-and-edit-dinner-button");
-    }
 
-    this.getContainer = function(){
+
+    this.getContainer = function()
+    {
         return container;
     }
+
+    
 };
  
